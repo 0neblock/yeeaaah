@@ -1,8 +1,8 @@
 var yeah = "/YEEEEAAAAAAAAHH.mp3";
 var audioElement = null;
 $(function(){
-    audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', yeah);
+    audioElement = new Audio();
+    audioElement.src = yeah;
     $("#yeah").click(function(){
         start();
     });
@@ -13,27 +13,31 @@ $(window).keydown(function(e){
         start();   
     }
 });
-
+var existingTimeout = null;
 
 var yeahWords = "YEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH";
 var letter = 0;
 
 function yeahh(){
-    setTimeout(function(){
+    existingTimeout = setTimeout(function(){
         $("#content").text($("#content").text() + yeahWords[letter]);
         letter++;
         if(letter < yeahWords.length){
             yeahh();
-        }   
+        }
     }, 20);
 }
 
 function start(){
-    $("#content").html("");
+    letter = 0;
+    clearTimeout(existingTimeout);
+    $("#content").text("");
     yeahh();
     play();
 }
 
 function play(){
+    audioElement.pause();
+    audioElement.currentTime = 0.3;
     audioElement.play();
 }
